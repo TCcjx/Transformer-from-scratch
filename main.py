@@ -160,7 +160,7 @@ class TransformerLanguageModel(nn.Module):
         position_encoding_lookup_table[:,1::2] = torch.cos(position * div_term)
 
         # change position_encoding_lookup_table from (context_length, d_model) to (T, d_model)
-        position_embedding = position_encoding_lookup_table[:T,:].to(device) # 这里想想为什么是取T个序列呢?
+        position_embedding = position_encoding_lookup_table[:T,:].to(device) # 这里想想为什么是取T个序列呢? 其实这里不必要，因为context_lenth = T
         x = self.token_embedding_lookup_table(idx) + position_embedding # 多个transformer块实现
         x = self.transformer_blocks(x)
         logits = self.language_model_out_linear_layer(x)
